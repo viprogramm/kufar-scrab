@@ -1,8 +1,4 @@
-// import puppeteer from "puppeteer";
-
-import puppeteer from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
-
+import puppeteer from "puppeteer";
 import { Bot } from "grammy";
 
 import { productsDB } from "./common/products-db.js";
@@ -24,14 +20,7 @@ export const scrub = async () => {
 
   const bot = new Bot(TOKEN);
 
-  const browser = await puppeteer.launch({
-    executablePath: await chromium.executablePath,
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    headless: chromium.headless,
-  });
-
-  // const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   try {
