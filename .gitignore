@@ -8,6 +8,9 @@ lerna-debug.log*
 .pnpm-debug.log*
 log.txt
 
+# package-lock.json
+package-lock.json
+
 #db file
 src/db
 

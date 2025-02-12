@@ -10,8 +10,6 @@ import { runBot } from "./bot.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log('!ENV', process.env.TOKEN);
-
 function formatDate(timestamp) {
   const date = new Date(timestamp);
   const day = date.getDate();
