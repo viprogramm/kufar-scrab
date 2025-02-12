@@ -22,6 +22,7 @@
     "@yetzt/nedb": "^1.8.0",
     "dotenv": "^16.4.7",
     "grammy": "^1.34.1",
-    "puppeteer": "^24.2.0"
+    "puppeteer-core": "^24.2.0",
+    "chrome-aws-lambda": "^14.6.3"
   }
 }
