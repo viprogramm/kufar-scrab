@@ -2,7 +2,7 @@
   "name": "web-scraper",
   "version": "1.0.0",
   "description": "A simple web scraper searching products.",
-  "main": "script.js",
+  "main": "./src/server.js",
   "type": "module",
   "scripts": {
     "start": "node ./src/server.js",
