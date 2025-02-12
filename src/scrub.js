@@ -1,7 +1,7 @@
 // import puppeteer from "puppeteer";
 
-const puppeteer = require("puppeteer-core");
-const chromium = require("chrome-aws-lambda");
+import puppeteer from "puppeteer-core";
+import chromium from "chrome-aws-lambda";
 
 import { Bot } from "grammy";
 
