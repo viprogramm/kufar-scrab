@@ -19,9 +19,9 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
+    "@yetzt/nedb": "^1.8.0",
     "dotenv": "^16.4.7",
     "grammy": "^1.34.1",
-    "nedb": "^1.8.0",
     "puppeteer": "^24.2.0"
   }
 }

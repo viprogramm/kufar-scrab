@@ -13,7 +13,7 @@ export const runBot = () => {
   const bot = new Bot(TOKEN);
 
   bot.command("start", (ctx) => {
-    ctx.reply("Welcome! Up and running.");
+    ctx.reply("Greetings traveler. Take a moment to rest at this bonfire! 🔥");
 
     if (ctx.from) {
       let user = {

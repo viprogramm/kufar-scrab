@@ -1,4 +1,4 @@
-import Datastore from "nedb";
+import Datastore from "@yetzt/nedb";
 import path from "path";
 import { fileURLToPath } from "url";
 
