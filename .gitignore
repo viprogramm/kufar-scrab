@@ -8,6 +8,10 @@ lerna-debug.log*
 .pnpm-debug.log*
 log.txt
 
+#images
+homepage.png
+search_results.png
+
 # package-lock.json
 package-lock.json
 
