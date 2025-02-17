@@ -1,5 +1,7 @@
 import puppeteer from "puppeteer";
 import { Bot } from "grammy";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
 import { productsDB } from "./common/products-db.js";
 import { usersDB } from "./common/users-db.js";
@@ -200,6 +202,9 @@ export const scrub = async (init = false) => {
   );
 };
 
+const argv = yargs(hideBin(process.argv)).argv;
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  scrub(true);
+  console.log(argv.init, typeof argv.init);
+  scrub(argv.init);
 }
