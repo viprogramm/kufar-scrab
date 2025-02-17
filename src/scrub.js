@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import puppeteer from "puppeteer";
 import { Bot } from "grammy";
 import yargs from "yargs";
@@ -67,7 +69,7 @@ export const scrub = async (init = false) => {
     }
 
     // Take screenshot after loading main page
-    await page.screenshot({ path: "homepage.png" });
+    // await page.screenshot({ path: "homepage.png" });
     try {
       await page.waitForSelector('div[data-name="listings"] section > a');
       let oldContent = await page.evaluate(
@@ -96,7 +98,7 @@ export const scrub = async (init = false) => {
     }
 
     // Take screenshot after redirecting to search results
-    await page.screenshot({ path: "search_results.png" });
+    // await page.screenshot({ path: "search_results.png" });
 
     // Check for attention button and click it if exists
     // try {
