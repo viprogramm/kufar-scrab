@@ -1,0 +1,45 @@
+name: Run my script
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  run-my-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.18.0'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+          path: |
+            ~/.npm
+            node_modules
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run my script
+        run: npm run scrub
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          DATA_FOLDER: ${{ secrets.DATA_FOLDER }}
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add -A
+          git commit -m "Commit from GitHub Actions" || exit 0
+          git push 
