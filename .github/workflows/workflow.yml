@@ -3,6 +3,7 @@ name: Run my script
 on:
   schedule:
     - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   run-my-script:
