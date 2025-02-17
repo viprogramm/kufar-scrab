@@ -14,15 +14,21 @@ const SEARCH_LIST = [
   {
     search: "wii u",
   },
+  {
+    search: "крушитель",
+  },
+  {
+    search: "saeco",
+    additionalSearch: ["veneto", "combi"],
+  },
 ];
 
-export const scrub = async () => {
+export const scrub = async (init = false) => {
   console.log("START_SCRUB");
 
   const date = new Date();
+  const start_time = date.getTime();
   const formattedDate = date.toLocaleString();
-
-  appendLog(`Script ran at: ${formattedDate}`, 10);
 
   productsDB.ensureIndex({ fieldName: "url", unique: true }, (err) => {
     if (err) console.log("Error when creating index", err);
@@ -32,10 +38,14 @@ export const scrub = async () => {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  // await page.setViewport({
+  //   width: 1366,
+  //   height: 768,
+  // });
 
   for (const searchItem of SEARCH_LIST) {
     try {
-      await page.goto("https://kufar.by");
+      await page.goto("https://www.kufar.by/l", { timeout: 60000 });
     } catch (error) {
       console.log("Page navigation failed", error);
       await browser.close();
@@ -55,11 +65,12 @@ export const scrub = async () => {
     }
 
     // Take screenshot after loading main page
-    // await page.screenshot({ path: "homepage.png" });
+    await page.screenshot({ path: "homepage.png" });
     try {
+      await page.waitForSelector('div[data-name="listings"] section > a');
       let oldContent = await page.evaluate(
         () =>
-          document.querySelector('div[data-name="listings"] section a')
+          document.querySelector('div[data-name="listings"] section > a')
             .textContent
       );
 
@@ -75,7 +86,7 @@ export const scrub = async () => {
         (selector, oldContent) =>
           document.querySelector(selector).textContent !== oldContent,
         {},
-        'div[data-name="listings"] section a',
+        'div[data-name="listings"] section > a',
         oldContent
       );
     } catch (error) {
@@ -83,13 +94,25 @@ export const scrub = async () => {
     }
 
     // Take screenshot after redirecting to search results
-    // await page.screenshot({ path: "search_results.png" });
+    await page.screenshot({ path: "search_results.png" });
 
-    let productDetails;
+    // Check for attention button and click it if exists
+    // try {
+    //   const attentionButton = await page.$(
+    //     'div[class^="styles_attentionContainer_"] button'
+    //   );
+    //   if (attentionButton) {
+    //     await attentionButton.click();
+    //   }
+    // } catch (error) {
+    //   console.log("Error when selecting or clicking attention button", error);
+    // }
+
+    let productDetails = [];
     try {
       productDetails = await page.evaluate(() => {
         const productElements = Array.from(
-          document.querySelectorAll('div[data-name="listings"] section a')
+          document.querySelectorAll('div[data-name="listings"] section > a')
         );
         return productElements.map((productElem) => {
           const url = productElem.getAttribute("href");
@@ -106,7 +129,11 @@ export const scrub = async () => {
         });
       });
     } catch (error) {
-      console.log("Error when evaluating product details", error);
+      console.log(
+        "Error when evaluating product details",
+        JSON.stringify(searchItem),
+        error
+      );
       await browser.close();
       return;
     }
@@ -132,20 +159,22 @@ export const scrub = async () => {
             } else if (newDoc) {
               console.log("Saved new product:", newDoc);
 
-              // Fetch all users from usersDB
-              usersDB.find({}, async (err, users) => {
-                if (err) {
-                  console.log("Error fetching users", err);
-                } else {
-                  // Send a message to each user about the new product
-                  for (const user of users) {
-                    await bot.api.sendMessage(
-                      user.id,
-                      `New Product Alert! \n${newDoc.url}`
-                    );
+              if (!init) {
+                // Fetch all users from usersDB
+                usersDB.find({}, async (err, users) => {
+                  if (err) {
+                    console.log("Error fetching users", err);
+                  } else {
+                    // Send a message to each user about the new product
+                    for (const user of users) {
+                      await bot.api.sendMessage(
+                        user.id,
+                        `New Product Alert! \n${newDoc.title} \n${newDoc.price} \n${newDoc.url}`
+                      );
+                    }
                   }
-                }
-              });
+                });
+              }
             }
           });
         }
@@ -161,9 +190,16 @@ export const scrub = async () => {
   }
 
   await browser.close();
-  console.log("Scraping Finished =)");
+  const end_time = new Date().getTime();
+  const execution_time = (end_time - start_time) / 1000;
+  console.log("Scraping Finished =)", execution_time + " seconds");
+
+  appendLog(
+    `Script ran at: ${formattedDate} (execution time ${execution_time} seconds)`,
+    10
+  );
 };
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  scrub();
+  scrub(true);
 }

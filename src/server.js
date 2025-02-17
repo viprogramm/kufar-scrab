@@ -78,8 +78,10 @@ server.listen(PORT, () => {
 //Run bot for registration
 runBot();
 
+const MINUTES = 3;
+
 // Run scrub
 scrub();
 setInterval(() => {
   scrub();
-}, 60 * 1000);
+}, MINUTES * 60 * 1000);
