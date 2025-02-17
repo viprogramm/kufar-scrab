@@ -2,7 +2,9 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const logPath = "../log.txt";
+import { DATA_FOLDER } from "../common/global-envs.js";
+
+const logPath = `../${DATA_FOLDER}/log.txt`;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -69,7 +69,7 @@ export const scrub = async (init = false) => {
     }
 
     // Take screenshot after loading main page
-    // await page.screenshot({ path: "homepage.png" });
+    await page.screenshot({ path: "homepage.png" });
     try {
       await page.waitForSelector('div[data-name="listings"] section > a');
       let oldContent = await page.evaluate(
@@ -98,7 +98,7 @@ export const scrub = async (init = false) => {
     }
 
     // Take screenshot after redirecting to search results
-    // await page.screenshot({ path: "search_results.png" });
+    await page.screenshot({ path: "search_results.png" });
 
     // Check for attention button and click it if exists
     // try {
@@ -161,7 +161,7 @@ export const scrub = async (init = false) => {
             if (err && err.errorType !== "uniqueViolated") {
               console.log("Error when inserting product into database", err);
             } else if (newDoc) {
-              console.log("Saved new product:", newDoc);
+              console.log("Saved new product:", searchItem.search, newDoc);
 
               if (!init) {
                 // Fetch all users from usersDB

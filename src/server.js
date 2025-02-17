@@ -3,6 +3,8 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
+
+import { DATA_FOLDER } from "./common/global-envs.js";
 import { productsDB } from "./common/products-db.js";
 import { scrub } from "./scrub.js";
 import { runBot } from "./bot.js";
@@ -27,7 +29,7 @@ function formatDate(timestamp) {
 const server = http.createServer((req, res) => {
   console.log("@req.url", req.url);
   if (req.url === "/log.txt") {
-    const filePath = path.join(__dirname, "log.txt");
+    const filePath = path.join(__dirname, `./${DATA_FOLDER}/log.txt`);
 
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {

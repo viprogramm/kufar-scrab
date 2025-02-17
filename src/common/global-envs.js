@@ -9,3 +9,4 @@ const dotenvPath = path.resolve(__dirname, "../../.env");
 dotenv.config({ path: dotenvPath });
 
 export const TOKEN = process.env.TOKEN;
+export const DATA_FOLDER = process.env.DATA_FOLDER || "data";
