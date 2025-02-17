@@ -1,4 +1,4 @@
-name: Run my script
+name: Run scrub script
 
 on:
   schedule:
@@ -19,7 +19,7 @@ jobs:
           node-version: '18.18.0'
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
