@@ -15,16 +15,16 @@ const SEARCH_LIST = [
     search: "nintendo",
     additionalSearch: ["ds"],
   },
-  // {
-  //   search: "wii u",
-  // },
-  // {
-  //   search: "крушитель",
-  // },
-  // {
-  //   search: "saeco",
-  //   additionalSearch: ["veneto", "combi"],
-  // },
+  {
+    search: "wii u",
+  },
+  {
+    search: "крушитель",
+  },
+  {
+    search: "saeco",
+    additionalSearch: ["veneto", "combi"],
+  },
 ];
 
 export const scrub = async (init = false) => {
